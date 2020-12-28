@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react'
+import firebase from'./firebase'
 
 function App() {
+  useEffect(()=>{
+    const messaging = firebase.messaging();
+    messaging.requestPermission()
+    .then(function(){
+      console.log('permission granted');
+      return messaging.getToken();
+    })
+    .then(function(token){
+      console.log(token);
+    })
+    .catch(function(err){
+      console.log('error')
+    })
+    messaging.onMessage(function(payload){
+      console.log('onMessage',payload);
+    })
+  })
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+    <h1>welcome</h1>
+      
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
